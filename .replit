@@ -1,0 +1,10 @@
+modules = ["python-3.11"]
+run = "python main.py"
+
+[deployment]
+run = ["python", "main.py"]
+deploymentTarget = "autoscale"
+
+[[ports]]
+localPort = 5000
+externalPort = 80

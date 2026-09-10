@@ -1,0 +1,35 @@
+[
+  {
+    "id": "id_random",
+    "file": "id_documents_random_split.csv",
+    "name": "ID documents - random frame split",
+    "blurb": "Real ResNet50 features from 4,600 MIDV-500 video frames, split by shuffling frames. Scores 97.2% - and EvalGuard shows why that number is not real.",
+    "expect": "fail",
+    "group_col": "doc_type",
+    "ignore_cols": "clip, capture_condition",
+    "seed_scores": "0.8171, 0.8143, 0.8100, 0.8129, 0.8171",
+    "split_scores": "0.5714, 0.8529, 0.6557, 0.5843, 0.7243"
+  },
+  {
+    "id": "id_grouped",
+    "file": "id_documents_grouped_split.csv",
+    "name": "ID documents - document-design split",
+    "blurb": "The same frames, re-split so entire document designs are held out. The leakage is gone and accuracy falls to 82.6% - but the variance check shows even that number swings by 11 points depending on which designs you hold out.",
+    "expect": "fail",
+    "group_col": "doc_type",
+    "ignore_cols": "clip, capture_condition",
+    "seed_scores": "0.8171, 0.8143, 0.8100, 0.8129, 0.8171",
+    "split_scores": "0.5714, 0.8529, 0.6557, 0.5843, 0.7243"
+  },
+  {
+    "id": "fraud",
+    "file": "fraud_imbalanced.csv",
+    "name": "Fraud detection - imbalanced classes",
+    "blurb": "Synthetic. 94.9% accuracy sounds strong until you notice that always guessing 'legitimate' scores 94.5%.",
+    "expect": "fail",
+    "group_col": "",
+    "ignore_cols": "",
+    "seed_scores": "",
+    "split_scores": ""
+  }
+]

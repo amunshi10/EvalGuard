@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EvalGuard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <div class="mark">EvalGuard</div>
+    <p class="tagline">
+      Checks a labelled dataset and its train/test split for the mistakes that make an
+      accuracy number wrong before you ever quote it.
+    </p>
+  </header>
+
+  <form id="form" class="panel">
+
+    <section class="block">
+      <h2>1. Choose a dataset</h2>
+      <div class="samples">
+        {% for s in samples %}
+        <label class="sample" data-sample="{{ s.id }}">
+          <input type="radio" name="sample" value="{{ s.id }}"
+                 data-group="{{ s.group_col }}" data-ignore="{{ s.ignore_cols }}"
+                 data-seed="{{ s.seed_scores }}" data-split="{{ s.split_scores }}">
+          <span class="sample-body">
+            <span class="sample-name">{{ s.name }}</span>
+            <span class="sample-blurb">{{ s.blurb }}</span>
+          </span>
+          <span class="chip chip-{{ s.expect }}">expects {{ s.expect }}</span>
+        </label>
+        {% endfor %}
+
+        <label class="sample upload" data-sample="__upload__">
+          <input type="radio" name="sample" value="">
+          <span class="sample-body">
+            <span class="sample-name">Upload your own CSV</span>
+            <span class="sample-blurb">
+              Needs a <code>split</code> column (train/test) and a <code>label</code> column.
+              <code>id</code>, <code>prediction</code> and a group column are optional but unlock more checks.
+            </span>
+          </span>
+        </label>
+      </div>
+
+      <div id="file-row" class="file-row" hidden>
+        <input type="file" id="file" name="file" accept=".csv,text/csv">
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>2. Repeated runs <span class="opt">optional</span></h2>
+      <p class="hint">
+        Paste the scores from runs you have already done. Anything numeric works -
+        <code>0.8171</code>, <code>81.71</code>, or a pasted log line.
+      </p>
+      <div class="grid2">
+        <label class="field">
+          <span>Same split, different training seeds</span>
+          <textarea name="seed_scores" id="seed_scores" rows="3"
+                    placeholder="0.8171, 0.8143, 0.8100"></textarea>
+        </label>
+        <label class="field">
+          <span>Different held-out sets</span>
+          <textarea name="split_scores" id="split_scores" rows="3"
+                    placeholder="0.5714, 0.8529, 0.6557"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="block">
+      <details>
+        <summary>Advanced settings</summary>
+        <div class="grid3">
+          <label class="field">
+            <span>Group column</span>
+            <input type="text" name="group_col" id="group_col" placeholder="auto-detect">
+            <small>The real-world thing a row belongs to: document, patient, session.</small>
+          </label>
+          <label class="field">
+            <span>Ignore columns</span>
+            <input type="text" name="ignore_cols" id="ignore_cols" placeholder="comma separated">
+            <small>Metadata that is not a model input.</small>
+          </label>
+          <label class="field">
+            <span>Similarity threshold</span>
+            <input type="number" name="threshold" id="threshold" value="0.95"
+                   min="0.5" max="1" step="0.01">
+            <small>Raised automatically if the feature space needs it.</small>
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <div class="actions">
+      <button type="submit" id="run">Run checks</button>
+      <span id="status" class="status"></span>
+    </div>
+  </form>
+
+  <div id="error" class="error" hidden></div>
+  <div id="results" hidden></div>
+
+  <footer class="foot">
+    <p>
+      Every check explains what it found, why it matters and what to do about it.
+      Nothing is uploaded anywhere - the file is parsed in memory by the app you are running.
+    </p>
+  </footer>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
