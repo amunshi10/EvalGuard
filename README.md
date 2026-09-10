@@ -10,6 +10,8 @@ what it found, why it matters, and what to do about it.
 
 Built with Flask, pandas and scikit-learn. Runs on Replit with no configuration.
 
+<img alt="EvalGuard dataset picker with three bundled datasets" src="docs/screenshot-datasets.png" width="800" />
+
 ## Why I built this
 
 I trained an identity-document classifier on MIDV-500 — ResNet50 features, linear probe,
@@ -40,6 +42,17 @@ Both mistakes were invisible to every metric I computed after the split. That is
 checks for.
 
 ## The four checks
+
+Running the leaky split through EvalGuard. Every check reports what it found, why it
+matters and what to do about it — the aim is that someone who did not write the checks
+can act on the output:
+
+<img alt="Leakage check failing on the random frame split: 105 of 690 held-out samples have a near-identical twin in training" src="docs/screenshot-leakage-result.png" width="800" />
+
+Note the detail in that report: dropping the flagged rows *raises* accuracy by 0.9 points.
+Deleting duplicates is not the fix, because the rows that remain come from the same
+document designs the model trained on. EvalGuard says so rather than letting you think
+the problem is solved.
 
 **1. Near-duplicate / leakage detection.** Encodes the feature columns, then for each held-out
 row finds its nearest training row by cosine similarity. Anything above the threshold is
@@ -160,6 +173,7 @@ static/style.css, app.js    UI; results rendered client-side from JSON
 samples/                    bundled datasets + index.json
 scripts/make_samples.py     regenerates them from the classifier project
 tests/test_checks.py        17 tests, one fault per test
+docs/                       README screenshots
 ```
 
 ## License
