@@ -1,5 +1,6 @@
 # EvalGuard
 
+[![Live demo](https://img.shields.io/badge/demo-live-6ea8fe.svg)](https://eval-guard--aarnavmunshi.replit.app)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-3776ab.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-17%20passing-3fb950.svg)](tests/test_checks.py)
@@ -9,6 +10,9 @@ mistakes that make an accuracy number wrong, and explains each one in plain Engl
 what it found, why it matters, and what to do about it.
 
 Built with Flask, pandas and scikit-learn. Runs on Replit with no configuration.
+
+**Live demo:** https://eval-guard--aarnavmunshi.replit.app — pick a bundled dataset and
+press Run checks; no upload needed.
 
 <img alt="EvalGuard dataset picker with three bundled datasets" src="docs/screenshot-datasets.png" width="800" />
 
